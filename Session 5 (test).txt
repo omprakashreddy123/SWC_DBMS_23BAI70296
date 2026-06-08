@@ -1,0 +1,22 @@
+Solution for question 1:
+
+SELECT Extract(Month from b.event_date) as month ,
+count(DISTINCT b.user_id) as monthly_active_users 
+FROM user_actions a
+JOIN user_actions b
+on a.user_id=b.user_id
+AND b.event_date between '07/01/2022 12:00:00' and '07/31/2022 11:59:59'
+AND a.event_date between '06/01/2022 12:00:00' and '06/30/2022 11:59:59'
+group by month;
+
+
+Solution for question 2:
+
+SELECT count(*) as payment_count 
+FROM transactions t1 
+join TRANSACTIONs t2 
+on t1.transaction_id < t2.transaction_id
+AND t1.merchant_id = t2.merchant_id 
+-- AND t1.credit_card_id= t2.credit_card_id
+AND t1.amount = t2.amount
+And EXTRACT(epoch from (t2.TRANSACTION_timestamp -t1.TRANSACTION_timestamp))<=600
